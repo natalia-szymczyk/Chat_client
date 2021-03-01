@@ -1,4 +1,4 @@
-# Chat_client
+# Bash script: Chat client
 
 A project for Operating Systems classes in the second semester that works like a chat client. 
 
