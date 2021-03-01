@@ -76,7 +76,6 @@ echo "7. włączyć przełącznik -UPPER (wszystkie wiadomości będą pisane wi
 echo "0. Zakończyć działanie programu"
 
 while [ $x -gt 0 ]; do
-
 	echo
 	#mozliwe=(`find $1 -type f -name "*.txt" | cut -d "/" -f 2 | cut -d "." -f 1`)
 	#echo "Dostępne pokoje: ${mozliwe[*]}"
@@ -89,7 +88,6 @@ while [ $x -gt 0 ]; do
 		exit
 
 	elif [ $x -eq 1 ] 2>/dev/null; then
-
 		echo
 		echo "Podaj nazwę nowego pokoju"
 		read pokoj
@@ -98,24 +96,18 @@ while [ $x -gt 0 ]; do
 
 		if [ $licz -gt 0 ]; then
 			echo "Już istnieje taki pokój"
-
 		else
-
 			touch ./$1/$pokoj.txt
-
 		fi
 
 	elif [ $x -eq 2 ] 2>/dev/null; then
-
 		echo
 		mozliwe=(`find $1 -type f -name "*.txt" | cut -d "/" -f 2 | cut -d "." -f 1`)
 
 		if [ ${#mozliwe[@]} -eq 0 ]; then
 			echo "Nie ma żadnego dostępnego pokoju."
 			echo "Stwórz nowy pokój"
-
 		else
-
 			echo "Dostępne pokoje: ${mozliwe[*]}"
 			echo
 			echo "Podaj nazwę pokoju, do którego chcesz wejść"
@@ -125,7 +117,6 @@ while [ $x -gt 0 ]; do
 			licz2=`find $1 -name "$wejsc.txt" | wc -l`
 
 			if [ $licz2 -eq 1 ]; then
-
 				echo "Jesteś w pokoju $wejsc"
 			else
 				echo "Wejście do tego pokoju jest niemożliwe"
@@ -133,12 +124,9 @@ while [ $x -gt 0 ]; do
 		fi
 
 	elif [ $x -eq 3 ] 2>/dev/null; then
-
 		if [ -z "$wejsc" ]; then
 			echo "Nie wszedłeś do żadnego pokoju"
-
 		else
-
 			echo
 			echo "Wiadomości w pokoju $wejsc: "
 			cat ./$1/$wejsc.txt
@@ -146,7 +134,6 @@ while [ $x -gt 0 ]; do
 		fi
 
 	elif [ $x -eq 4 ] 2>/dev/null; then
-
 		licz6=`find ./$1/prywatne/ -name "$login" | wc -l`
 
 		if [ $licz6 -eq 0 ]; then
@@ -156,55 +143,43 @@ while [ $x -gt 0 ]; do
 			cat ./$1/prywatne/$login
 		fi
 
-	elif [ $x -eq 5 ] 2>/dev/null; then	
-
+	elif [ $x -eq 5 ] 2>/dev/null; then
 		if [ -z "$wejsc" ]; then
 			echo "Nie wszedłeś do żadnego pokoju"
-
 		else
 
-		if [ $up -eq 0 ]; then
+			if [ $up -eq 0 ]; then
+				echo "Podaj swoją wiadomość, którą wyślesz do pokoju $wejsc"
+				read wiadomosc
 
-			echo "Podaj swoją wiadomość, którą wyślesz do pokoju $wejsc"
-			read wiadomosc
+				echo "(`date +%R` `date +%F`) $login: $wiadomosc" >> ./$1/$wejsc.txt
 
-			echo "(`date +%R` `date +%F`) $login: $wiadomosc" >> ./$1/$wejsc.txt
+			elif [ $up -eq 1 ];then 
+				echo "Podaj swoją wiadomość, którą wyślesz do pokoju $wejsc"
+				read wiadomosc
 
-		elif [ $up -eq 1 ];then 
-
-			echo "Podaj swoją wiadomość, którą wyślesz do pokoju $wejsc"
-			read wiadomosc
-
-			echo "(`date +%R` `date +%F`) $login: `echo $wiadomosc | tr [:lower:] [:upper:]`" >> ./$1/$wejsc.txt
-
-		fi
-
+				echo "(`date +%R` `date +%F`) $login: `echo $wiadomosc | tr [:lower:] [:upper:]`" >> ./$1/$wejsc.txt
+			fi
 		fi
 
 	elif [ $x -eq 6 ] 2>/dev/null; then
-
 		echo "Podaj login użytkownika, do którego chcesz wysłać prywatną wiadomość: "
 		read pryw
 
 		if [[ ! " ${uzytkownicy[@]} " =~ " ${pryw} " ]]; then
 			echo "Niestety ten użytkownik nie jest dostępny. "
-
 		else
-
 			if [ $up -eq 0 ]; then
 				echo "Podaj treść wiadomości: "
 				read wiadomosc2
 
 				echo "(`date +%R` `date +%F`) $login: $wiadomosc2" >> ./$1/prywatne/$pryw
-
 			elif [ $up -eq 1 ];then
-
 				echo "Podaj treść wiadomości: "
 				read wiadomosc2
 
 				#echo "(`date +%R` `date +%F`) $login: `echo $wiadomosc2 | tr [:lower:] [:upper:]`"
 				echo "(`date +%R` `date +%F`) $login: `echo $wiadomosc2 | tr [:lower:] [:upper:]`" >> ./$1/prywatne/$pryw
-
 			fi
 		fi
 
